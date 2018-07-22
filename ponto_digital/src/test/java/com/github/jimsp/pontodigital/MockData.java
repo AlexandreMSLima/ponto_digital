@@ -15,8 +15,8 @@ public class MockData {
 
 	public static PontoDigitalDto createPontoDigitalDto() {
 		return PontoDigitalDto.builder().employees(Arrays.asList(createEmployer()))
-				.periodStart(DateFormat.formart().apply(createEntrie(2018, 06, 21)))
-				.today(DateFormat.formart().apply(createEntrie(2018, 06, 21))).build();
+				.periodStart(DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21)))
+				.today(DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21))).build();
 	}
 
 	public static Employer createEmployer() {
@@ -26,6 +26,16 @@ public class MockData {
 				.pisNumber("0101010101001") //
 				.workload(createWorkLoad()) //
 				.entries(createEntries()) //
+				.build();
+	}
+	
+	public static Employer createEmployerNextDay() {
+		return Employer //
+				.builder() //
+				.name("ALEXANDRE MORAES") //
+				.pisNumber("0101010101001") //
+				.workload(createWorkLoad()) //
+				.entries(createEntriesNextDay()) //
 				.build();
 	}
 
@@ -39,10 +49,19 @@ public class MockData {
 
 	public static List<String> createEntries() {
 		return Arrays.asList( //
-				DateFormat.formart().apply(createEntrie(2018, 06, 21, 8, 30)), //
-				DateFormat.formart().apply(createEntrie(2018, 06, 21, 12, 00)), //
-				DateFormat.formart().apply(createEntrie(2018, 06, 21, 13, 00)), //
-				DateFormat.formart().apply(createEntrie(2018, 06, 21, 17, 30)) //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 8, 30)), //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 12, 0)), //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 13, 0)), //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 17, 30)) //
+		);
+	}
+	
+	public static List<String> createEntriesNextDay() {
+		return Arrays.asList( //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 23, 30)), //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 22, 3, 0)), //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 22, 4, 0)), //
+				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 22, 8, 30)) //
 		);
 	}
 

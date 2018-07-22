@@ -3,10 +3,11 @@ package com.github.jimsp.pontodigital.functions;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Predicate;
 
 import com.github.jimsp.pontodigital.dto.Employer;
 
-public final class TimeIntervalDuringTheDay implements BiFunction<Employer, ItsTheSameDay, Integer> {
+public final class TimeIntervalDuringTheDay implements BiFunction<Employer, Predicate<Date>, Integer> {
 
 	public static TimeIntervalDuringTheDay create() {
 		return new TimeIntervalDuringTheDay();
@@ -22,7 +23,7 @@ public final class TimeIntervalDuringTheDay implements BiFunction<Employer, ItsT
 	}
 
 	@Override
-	public Integer apply(final Employer employer, final ItsTheSameDay itsTheSameDay) {
+	public Integer apply(final Employer employer, final Predicate<Date> itsTheSameDay) {
 
 		final Integer work = timeWorkedDuringTheDay.apply(employer, itsTheSameDay);
 		final Integer jorney = millisecondsToMinutes //
@@ -38,19 +39,19 @@ public final class TimeIntervalDuringTheDay implements BiFunction<Employer, ItsT
 		return jorney - work;
 	}
 
-	private Date getFirstEntrieDay(final List<String> entries, final ItsTheSameDay itsTheSameDay) {
+	private Date getFirstEntrieDay(final List<String> entries, final Predicate<Date> itsTheSameDay) {
 		return entries //
 				.stream() //
-				.map(DateFormat.parseDate()) //
+				.map(DateFormat.parseDateTime()) //
 				.filter(itsTheSameDay) //
 				.reduce((a, b) -> a.before(b) ? a : b) //
 				.get();
 	}
 
-	private Date getLastEntrieDay(final List<String> entries, final ItsTheSameDay itsTheSameDay) {
+	private Date getLastEntrieDay(final List<String> entries, final Predicate<Date> itsTheSameDay) {
 		return entries //
 				.stream() //
-				.map(DateFormat.parseDate()) //
+				.map(DateFormat.parseDateTime()) //
 				.filter(itsTheSameDay) //
 				.reduce((a, b) -> a.before(b) ? b : a) //
 				.get();

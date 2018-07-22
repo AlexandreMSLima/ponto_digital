@@ -24,8 +24,8 @@ public final class TimeIntervalDuringThePeriod implements Function<Employer, Int
 		final Integer work = timeWorkedDuringThePeriod.apply(employer);
 		final Integer jorney = millisecondsToMinutes //
 				.apply(interval.apply( //
-						dateToMilliseconds.apply(DateFormat.parseDate().apply(employer.getEntries().get(0))), //
-						dateToMilliseconds.apply(DateFormat.parseDate()
+						dateToMilliseconds.apply(DateFormat.parseDateTime().apply(employer.getEntries().get(0))), //
+						dateToMilliseconds.apply(DateFormat.parseDateTime()
 								.apply(employer.getEntries().get(employer.getEntries().size() - 1)))));
 		return jorney - work;
 	}

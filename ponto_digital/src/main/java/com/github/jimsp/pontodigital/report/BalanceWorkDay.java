@@ -1,4 +1,4 @@
-package com.github.jimsp.pontodigital;
+package com.github.jimsp.pontodigital.report;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -9,23 +9,17 @@ public final class TimeWorkedDuringThePeriod implements Function<Employer, Integ
 	public static TimeWorkedDuringThePeriod create() {
 		return new TimeWorkedDuringThePeriod();
 	}
-	
-	private final Interval interval = Interval.create();
-	private final MillisecondsConversion millisecondsToMinutes = MillisecondsConversion.createToSeconds();
-	private final DateToMilliseconds dateToMilliseconds = DateToMilliseconds.create();
 
 	private TimeWorkedDuringThePeriod() {
 		
 	}
 	
 	public Integer apply(final Employer employer) {
-		return PontoDigitalDtoStream
-				.of(employer)
-				 //
-			.map(dateToMilliseconds) //
-			.reduce(interval) //
-			.map(millisecondsToMinutes) //
-			.orElse(0);
+		return PontoDigitalDtoStream //
+				.of(employer) //
+				.map(mapper-> mapper.getTimeWorkMinutes())
+				.reduce((a,b)->a + b)
+				.orElse(0);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.github.jimsp.pontodigital;
+package com.github.jimsp.pontodigital.exceptions;
 
 import java.util.Arrays;
 import java.util.Set;

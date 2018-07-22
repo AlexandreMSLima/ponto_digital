@@ -1,4 +1,4 @@
-package com.github.jimsp.pontodigital;
+package com.github.jimsp.pontodigital.report;
 
 import java.util.List;
 

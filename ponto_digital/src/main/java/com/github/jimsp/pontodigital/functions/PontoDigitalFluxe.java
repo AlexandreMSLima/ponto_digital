@@ -1,27 +1,31 @@
-package com.github.jimsp.pontodigital;
+package com.github.jimsp.pontodigital.functions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
-import com.github.jimsp.pontodigital.functions.CalculateWorkDays;
-import com.github.jimsp.pontodigital.functions.DistinctDaysStream;
-import com.github.jimsp.pontodigital.functions.PontoDigitalDtoStream;
+import com.github.jimsp.pontodigital.report.BalanceWorkDay;
+import com.github.jimsp.pontodigital.report.PontoDigitalReport;
 
-public final class PontoDigitalFluxe {
+public final class PontoDigitalFluxe implements Function<PontoDigitalDto, List<PontoDigitalReport>>{
 
 	public static PontoDigitalFluxe create() {
 		return new PontoDigitalFluxe();
 	}
 
-	private final CalculateWorkDays calculateWorkDays = CalculateWorkDays.create();
+	private final BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays = CalculateWorkDays.create();
 
 	private PontoDigitalFluxe() {
 
 	}
 
-	public List<PontoDigitalReport> processDto(final PontoDigitalDto pontoDigitalDto) {
+	@Override
+	public List<PontoDigitalReport> apply(final PontoDigitalDto pontoDigitalDto) {
 
 		final List<PontoDigitalReport> pontoDigitalReports = new ArrayList<>();
 		PontoDigitalDtoStream //

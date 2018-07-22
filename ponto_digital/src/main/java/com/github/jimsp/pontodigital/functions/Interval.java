@@ -18,5 +18,4 @@ public final class Interval implements BinaryOperator<Long>{
 	public Long apply(final Long begin, final Long end) {
 		return subtraction.apply(end, begin);
 	}
-
 }

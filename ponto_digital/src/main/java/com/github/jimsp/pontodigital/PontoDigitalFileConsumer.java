@@ -6,40 +6,44 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
+import com.github.jimsp.pontodigital.exceptions.PontoDigitalValidationException;
+import com.github.jimsp.pontodigital.exceptions.PontoDigitalWithProblemFileException;
+import com.github.jimsp.pontodigital.report.PontoDigitalReport;
 
 public final class PontoDigitalFileConsumer implements BiConsumer<InputStream, OutputStream> {
 
-	public static PontoDigitalFileConsumer create(final PontoDigitalFluxe pontoDigitalFluxe) {
+	public static PontoDigitalFileConsumer create(final Function<PontoDigitalDto, List<PontoDigitalReport>> pontoDigitalFluxe) {
 		final ObjectMapper objectMapper = new ObjectMapper();
 		return new PontoDigitalFileConsumer(objectMapper, pontoDigitalFluxe);
 	}
 	
-	public static PontoDigitalFileConsumer create(final ObjectMapper objectMapper, final PontoDigitalFluxe pontoDigitalFluxe) {
+	public static PontoDigitalFileConsumer create(final ObjectMapper objectMapper, final Function<PontoDigitalDto, List<PontoDigitalReport>> pontoDigitalFluxe) {
 		return new PontoDigitalFileConsumer(objectMapper, pontoDigitalFluxe);
 	}
 
 	private final ObjectMapper objectMapper;
-	private final PontoDigitalFluxe pontoDigitalFluxe;
+	private final Function<PontoDigitalDto, List<PontoDigitalReport>> pontoDigitalFluxe;
 
-	private PontoDigitalFileConsumer(final ObjectMapper objectMapper, final PontoDigitalFluxe pontoDigitalFluxe) {
+	private PontoDigitalFileConsumer(final ObjectMapper objectMapper, final Function<PontoDigitalDto, List<PontoDigitalReport>> pontoDigitalFluxe) {
 		this.objectMapper = objectMapper;
 		this.pontoDigitalFluxe = pontoDigitalFluxe;
 	}
 
 	@Override
-	public void accept(@NotBlank final InputStream input, @NotBlank final OutputStream output) {
+	public void accept(@NotNull final InputStream input, @NotNull final OutputStream output) {
 		try {
 			final PontoDigitalDto pontoDigitalDto = read(input);
 			final List<PontoDigitalReport> report = process(pontoDigitalDto);
@@ -55,7 +59,7 @@ public final class PontoDigitalFileConsumer implements BiConsumer<InputStream, O
 	}
 
 	public List<PontoDigitalReport> process(final PontoDigitalDto pontoDigitalDto) {
-		return pontoDigitalFluxe.processDto(pontoDigitalDto);
+		return pontoDigitalFluxe.apply(pontoDigitalDto);
 	}
 
 	public PontoDigitalDto read(final InputStream input) throws IOException, JsonParseException, JsonMappingException {

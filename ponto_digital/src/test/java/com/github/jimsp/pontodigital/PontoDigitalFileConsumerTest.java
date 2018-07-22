@@ -13,7 +13,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
+import com.github.jimsp.pontodigital.exceptions.PontoDigitalValidationException;
+import com.github.jimsp.pontodigital.exceptions.PontoDigitalWithProblemFileException;
 import com.github.jimsp.pontodigital.functions.DistinctDaysStream;
+import com.github.jimsp.pontodigital.functions.PontoDigitalFluxe;
 
 public class PontoDigitalFileConsumerTest {
 

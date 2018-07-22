@@ -1,4 +1,4 @@
-package com.github.jimsp.pontodigital;
+package com.github.jimsp.pontodigital.exceptions;
 
 public final class PontoDigitalWithProblemFileException extends RuntimeException{
 
