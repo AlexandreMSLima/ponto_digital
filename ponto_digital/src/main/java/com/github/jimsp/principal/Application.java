@@ -1,32 +1,14 @@
 package com.github.jimsp.principal;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.github.jimsp.pontodigital.PontoDigitalFileConsumer;
 import com.github.jimsp.pontodigital.PontoDigitalFluxe;
-import com.github.jimsp.pontodigital.PontoDigitalIO;
+import com.github.jimsp.pontodigital.PontoDigitalWithProblemFileException;
 
 public final class Application {
-
-	private static final PontoDigitalIO PDIO = createPontoDigitalIO();
-
-	private static PontoDigitalIO createPontoDigitalIO() {
-		final File input = new File("input");
-		if (!input.exists()) {
-			input.mkdir();
-		}
-
-		final File output = new File("output");
-		if (!output.exists()) {
-			output.mkdir();
-		}
-
-		return PontoDigitalIO //
-				.builder() //
-				.input(input) //
-				.output(output) //
-				.build();
-	}
 
 	public static void main(final String[] args) {
 		final Application application = new Application();
@@ -34,10 +16,13 @@ public final class Application {
 	}
 
 	private final PontoDigitalFluxe pontoDigitalFluxe = PontoDigitalFluxe.create();
-	private final PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(pontoDigitalFluxe,
-			PDIO);
+	private final PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(pontoDigitalFluxe);
 
 	public void execute() {
-		pontoDigitalFileConsumer.accept("input.json", "output.json");
+		try {
+			pontoDigitalFileConsumer.accept(Files.newInputStream(Paths.get("input", "input.json")), Files.newOutputStream(Paths.get("output", "output.json")));
+		} catch (IOException e) {
+			throw new PontoDigitalWithProblemFileException(e);
+		}
 	}
 }

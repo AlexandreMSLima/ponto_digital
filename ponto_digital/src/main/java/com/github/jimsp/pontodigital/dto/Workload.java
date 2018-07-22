@@ -2,6 +2,10 @@ package com.github.jimsp.pontodigital.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,8 +16,15 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public final class Workload {
 
+	@Min(0)
+	@NotNull
 	private final Integer workloadInMinutes;
+	
+	@Min(0)
+	@NotNull
 	private final Integer minimumRestIntervalInMinutes;
+	
+	@NotEmpty
 	private final List<Day> days;
 
 	@JsonCreator

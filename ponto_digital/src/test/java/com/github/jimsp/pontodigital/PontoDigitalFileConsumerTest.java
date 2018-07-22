@@ -1,8 +1,9 @@
 package com.github.jimsp.pontodigital;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,31 +18,36 @@ import com.github.jimsp.pontodigital.functions.DistinctDaysStream;
 public class PontoDigitalFileConsumerTest {
 
 	private PontoDigitalFluxe pontoDigitalFluxe = PontoDigitalFluxe.create();
-	private PontoDigitalIO pontoDigitalIO = PontoDigitalIO.builder().input(new File("input")).output(new File("output"))
-			.build();
 	private PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(new ObjectMapper(),
-			pontoDigitalFluxe, pontoDigitalIO);
+			pontoDigitalFluxe);
 
-	@Test(expected=PontoDigitalWithProblemFileException.class)
+	@Test(expected = PontoDigitalWithProblemFileException.class)
 	public void testWithProblem() {
-		pontoDigitalFileConsumer.accept("", "output.json");
+		pontoDigitalFileConsumer.accept(new ByteArrayInputStream(new byte[] { 0x00, 0x01 }), System.out);
+	}
+
+	@Test
+	public void test() throws FileNotFoundException {
+		pontoDigitalFileConsumer.accept(new FileInputStream("input/input.json"), System.out);
 	}
 	
-	@Test
-	public void test() {
-		pontoDigitalFileConsumer.accept("input.json", "output.json");
-		System.out.println(Arrays.toString(pontoDigitalIO.getOutput().listFiles()));
+	@Test(expected=PontoDigitalValidationException.class)
+	public void testInvalidData() throws FileNotFoundException {
+		pontoDigitalFileConsumer.accept(new FileInputStream("input/invalid.json"), System.out);
+	}
+	
+	@Test(expected=PontoDigitalValidationException.class)
+	public void testInvalidNestedData() throws FileNotFoundException {
+		pontoDigitalFileConsumer.accept(new FileInputStream("input/invalidNested.json"), System.out);
 	}
 
 	@Test
 	public void printDistinctsDay() throws JsonParseException, JsonMappingException, IOException {
 		final PontoDigitalFluxe pontoDigitalFluxe = PontoDigitalFluxe.create();
-		final PontoDigitalIO pontoDigitalIO = PontoDigitalIO.builder().input(new File("input"))
-				.output(new File("output")).build();
-		final PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(pontoDigitalFluxe,
-				pontoDigitalIO);
 
-		final PontoDigitalDto pontoDigitalDto = pontoDigitalFileConsumer.read("input.json");
+		final PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(pontoDigitalFluxe);
+
+		final PontoDigitalDto pontoDigitalDto = pontoDigitalFileConsumer.read(new FileInputStream("input/input.json"));
 
 		final Employer employer = pontoDigitalDto //
 				.getEmployees() //
