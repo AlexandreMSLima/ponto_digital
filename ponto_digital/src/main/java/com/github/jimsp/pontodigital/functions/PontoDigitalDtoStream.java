@@ -9,15 +9,15 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.github.jimsp.pontodigital.Context;
+import com.github.jimsp.pontodigital.FunctionalCatalog;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.wrapper.PeriudWorkParam;
 
 public final class PontoDigitalDtoStream {
 
-	private static final Function<Long, Integer> millisecondsConversion = Context.millisecondsToSecondsConversion();
-	private static final BinaryOperator<Long> interval = Context.interval();
+	private static final Function<Long, Integer> millisecondsConversion = FunctionalCatalog.millisecondsToSecondsConversion();
+	private static final BinaryOperator<Long> interval = FunctionalCatalog.interval();
 
 	public static Stream<Employer> of(final PontoDigitalDto pontoDigitalDto) {
 		return pontoDigitalDto //
@@ -38,7 +38,7 @@ public final class PontoDigitalDtoStream {
 		while (i < entries.size()) {
 			final Date entry = entries.get(i);
 			final Date exit = entries.get(i + 1);
-			final Predicate<Date> itsTheSameDay = Context.itsSameDay(entry);
+			final Predicate<Date> itsTheSameDay = FunctionalCatalog.itsSameDay(entry);
 
 			if (itsTheSameDay.test(exit)) {
 

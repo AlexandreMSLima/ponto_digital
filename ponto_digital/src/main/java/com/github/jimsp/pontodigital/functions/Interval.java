@@ -3,7 +3,7 @@ package com.github.jimsp.pontodigital.functions;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 
-import com.github.jimsp.pontodigital.Context;
+import com.github.jimsp.pontodigital.FunctionalCatalog;
 
 public final class Interval implements BinaryOperator<Long>{
 	
@@ -11,7 +11,7 @@ public final class Interval implements BinaryOperator<Long>{
 		return new Interval();
 	}
 	
-	private final BiFunction<Long, Long, Long> subtraction = Context.subtraction();
+	private final BiFunction<Long, Long, Long> subtraction = FunctionalCatalog.subtraction();
 	
 	private Interval() {
 		

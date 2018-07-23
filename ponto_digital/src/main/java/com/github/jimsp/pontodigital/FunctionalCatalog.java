@@ -34,7 +34,7 @@ import com.github.jimsp.pontodigital.report.BalanceWorkDay;
 import com.github.jimsp.pontodigital.report.PontoDigitalReport;
 import com.github.jimsp.pontodigital.wrapper.TimeBalanceParam;
 
-public interface Context {
+public interface FunctionalCatalog {
 
 	public static BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays(){
 		return CalculateWorkDays.create();
