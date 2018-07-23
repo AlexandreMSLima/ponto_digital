@@ -28,9 +28,8 @@ public final class PontoDigitalRead implements Function<InputStream, PontoDigita
 	}
 	
 	public PontoDigitalDto apply(final InputStream input) {
-		PontoDigitalDto pontoDigitalDto;
 		try {
-			pontoDigitalDto = objectMapper.readValue(
+			final PontoDigitalDto pontoDigitalDto = objectMapper.readValue(
 					input,
 					PontoDigitalDto.class);
 			

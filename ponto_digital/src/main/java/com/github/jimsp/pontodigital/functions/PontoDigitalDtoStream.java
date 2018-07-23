@@ -5,17 +5,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.github.jimsp.pontodigital.Context;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.wrapper.PeriudWorkParam;
 
 public final class PontoDigitalDtoStream {
 
-	private static final Function<Long, Integer> millisecondsConversion = MillisecondsConversion.createToSeconds();
-	private static final BinaryOperator<Long> interval = Interval.create();
+	private static final Function<Long, Integer> millisecondsConversion = Context.millisecondsToSecondsConversion();
+	private static final BinaryOperator<Long> interval = Context.interval();
 
 	public static Stream<Employer> of(final PontoDigitalDto pontoDigitalDto) {
 		return pontoDigitalDto //
@@ -36,7 +38,7 @@ public final class PontoDigitalDtoStream {
 		while (i < entries.size()) {
 			final Date entry = entries.get(i);
 			final Date exit = entries.get(i + 1);
-			final ItsTheSameDay itsTheSameDay = ItsTheSameDay.create(entry);
+			final Predicate<Date> itsTheSameDay = Context.itsSameDay(entry);
 
 			if (itsTheSameDay.test(exit)) {
 
@@ -49,7 +51,8 @@ public final class PontoDigitalDtoStream {
 										.builder() //
 										.entry(entry) //
 										.exit(exit) //
-										.timeWorkMinutes(timeWorkMinutes).build());
+										.timeWorkMinutes(timeWorkMinutes) //
+										.build());
 			} else {
 				final Integer timeWorkMinutesAtLast = millisecondsConversion //
 						.apply(interval //

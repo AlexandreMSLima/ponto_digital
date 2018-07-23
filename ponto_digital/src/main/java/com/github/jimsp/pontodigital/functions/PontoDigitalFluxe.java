@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.github.jimsp.pontodigital.Context;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.report.BalanceWorkDay;
@@ -18,7 +19,7 @@ public final class PontoDigitalFluxe implements Function<PontoDigitalDto, List<P
 		return new PontoDigitalFluxe();
 	}
 
-	private final BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays = CalculateWorkDays.create();
+	private final BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays = Context.calculateWorkDays();
 
 	private PontoDigitalFluxe() {
 

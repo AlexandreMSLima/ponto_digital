@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
+import com.github.jimsp.pontodigital.Context;
 import com.github.jimsp.pontodigital.dto.Employer;
 
 public final class TimeIntervalDuringThePeriod implements Function<Employer, Integer> {
@@ -13,9 +14,9 @@ public final class TimeIntervalDuringThePeriod implements Function<Employer, Int
 	}
 	
 	private final BinaryOperator<Long> interval = Interval.create();
-	private final Function<Long, Integer> millisecondsToMinutes = MillisecondsConversion.createToSeconds();
-	private final Function<Date, Long> dateToMilliseconds = DateToMilliseconds.create();
-	private final Function<Employer, Integer> timeWorkedDuringThePeriod = TimeWorkedDuringThePeriod.create();
+	private final Function<Long, Integer> millisecondsToMinutes = Context.millisecondsToSecondsConversion();
+	private final Function<Date, Long> dateToMilliseconds = Context.dateToMilliseconds();
+	private final Function<Employer, Integer> timeWorkedDuringThePeriod = Context.timeWorkedDuringThePeriod();
 
 	private TimeIntervalDuringThePeriod() {
 		
