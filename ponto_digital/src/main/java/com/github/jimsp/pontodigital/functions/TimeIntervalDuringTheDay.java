@@ -1,7 +1,5 @@
 package com.github.jimsp.pontodigital.functions;
 
-import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
-
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiFunction;
