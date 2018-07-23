@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
-import com.github.jimsp.pontodigital.FunctionalCatalog;
 import com.github.jimsp.pontodigital.dto.Employer;
 
 public final class TimeIntervalDuringThePeriod implements Function<Employer, Integer> {

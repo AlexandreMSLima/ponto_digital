@@ -9,7 +9,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.github.jimsp.pontodigital.FunctionalCatalog;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.report.BalanceWorkDay;
