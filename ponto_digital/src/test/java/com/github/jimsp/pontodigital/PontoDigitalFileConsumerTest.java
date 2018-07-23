@@ -10,18 +10,20 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.exceptions.PontoDigitalValidationException;
 import com.github.jimsp.pontodigital.exceptions.PontoDigitalWithProblemFileException;
 import com.github.jimsp.pontodigital.functions.DistinctDaysStream;
 import com.github.jimsp.pontodigital.functions.PontoDigitalFluxe;
+import com.github.jimsp.pontodigital.functions.PontoDigitalRead;
 
 public class PontoDigitalFileConsumerTest {
 
+	private PontoDigitalRead pontoDigitalRead = PontoDigitalRead.create();
+	
 	private PontoDigitalFluxe pontoDigitalFluxe = PontoDigitalFluxe.create();
-	private PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(new ObjectMapper(),
+	private PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(
 			pontoDigitalFluxe);
 
 	@Test(expected = PontoDigitalWithProblemFileException.class)
@@ -46,11 +48,7 @@ public class PontoDigitalFileConsumerTest {
 
 	@Test
 	public void printDistinctsDay() throws JsonParseException, JsonMappingException, IOException {
-		final PontoDigitalFluxe pontoDigitalFluxe = PontoDigitalFluxe.create();
-
-		final PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(pontoDigitalFluxe);
-
-		final PontoDigitalDto pontoDigitalDto = pontoDigitalFileConsumer.read(new FileInputStream("input/input.json"));
+		final PontoDigitalDto pontoDigitalDto = pontoDigitalRead.apply(new FileInputStream("input/input.json"));
 
 		final Employer employer = pontoDigitalDto //
 				.getEmployees() //

@@ -3,6 +3,8 @@ package com.github.jimsp.pontodigital.functions;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,6 +13,9 @@ import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.wrapper.PeriudWorkParam;
 
 public final class PontoDigitalDtoStream {
+
+	private static final Function<Long, Integer> millisecondsConversion = MillisecondsConversion.createToSeconds();
+	private static final BinaryOperator<Long> interval = Interval.create();
 
 	public static Stream<Employer> of(final PontoDigitalDto pontoDigitalDto) {
 		return pontoDigitalDto //
@@ -31,47 +36,57 @@ public final class PontoDigitalDtoStream {
 		while (i < entries.size()) {
 			final Date entry = entries.get(i);
 			final Date exit = entries.get(i + 1);
+			final ItsTheSameDay itsTheSameDay = ItsTheSameDay.create(entry);
 
-			if (sameDay(entry, exit)) {
+			if (itsTheSameDay.test(exit)) {
+
+				final Integer timeWorkMinutes = millisecondsConversion
+						.apply(interval.apply(entry.getTime(), exit.getTime()));
+
 				periudWorkParams //
-				.add( //
-						PeriudWorkParam //
-								.builder() //
-								.entry(entry) //
-								.exit(exit) //
-								.build());
-			}else {
+						.add( //
+								PeriudWorkParam //
+										.builder() //
+										.entry(entry) //
+										.exit(exit) //
+										.timeWorkMinutes(timeWorkMinutes).build());
+			} else {
+				final Integer timeWorkMinutesAtLast = millisecondsConversion //
+						.apply(interval //
+								.apply(entry.getTime(), //
+										DateFormat.parseTimeLastHour() //
+												.apply(entry) //
+												.getTime()));
+
+				final Integer timeWorkMinutesOfZeroHour = millisecondsConversion //
+						.apply(interval //
+								.apply(DateFormat.parseTimeZeroHour() //
+										.apply(exit) //
+										.getTime(), //
+										exit.getTime()));
+
 				periudWorkParams //
-				.add( //
-						PeriudWorkParam //
-								.builder() //
-								.entry(entry) //
-								.exit(DateFormat.parseTimeLastHour().apply(entry)) //
-								.build());
+						.add( //
+								PeriudWorkParam //
+										.builder() //
+										.entry(entry) //
+										.exit(DateFormat.parseTimeLastHour().apply(entry)) //
+										.timeWorkMinutes(timeWorkMinutesAtLast) //
+										.build());
 				periudWorkParams //
-				.add( //
-						PeriudWorkParam //
-								.builder() //
-								.entry(DateFormat.parseTimeZeroHour().apply(exit)) //
-								.exit(exit) //
-								.build());
+						.add( //
+								PeriudWorkParam //
+										.builder() //
+										.entry(DateFormat.parseTimeZeroHour().apply(exit)) //
+										.exit(exit) //
+										.timeWorkMinutes(timeWorkMinutesOfZeroHour) //
+										.build());
 			}
 
-			
 			i = i + 2;
 		}
 
 		return periudWorkParams //
 				.stream();
-	}
-
-	private static boolean sameDay(final Date entry, final Date exit) {
-		return DateFormat //
-				.formartDate() //
-				.apply(entry) //
-				.equals( //
-						DateFormat //
-								.formartDate() //
-								.apply(exit));
 	}
 }
