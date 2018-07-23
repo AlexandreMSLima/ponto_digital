@@ -7,6 +7,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import com.github.jimsp.pontodigital.dto.Employer;
 
 public final class TimeIntervalDuringTheDay implements BiFunction<Employer, Predicate<Date>, Integer> {
@@ -15,12 +17,12 @@ public final class TimeIntervalDuringTheDay implements BiFunction<Employer, Pred
 		return new TimeIntervalDuringTheDay();
 	}
 
-	private final BinaryOperator<Long> interval = Interval.create();
-	private final Function<Long, Integer> millisecondsToMinutes = MillisecondsConversion.createToSeconds();
-	private final Function<Date, Long> dateToMilliseconds = DateToMilliseconds.create();
-	private final BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay = TimeWorkedDuringTheDay.create();
-	private final BiFunction<List<String>, Predicate<Date>, Date> firstEntrieDay = FirstEntrieDay.create();
-	private final BiFunction<List<String>, Predicate<Date>, Date> lastEntrieDay = LastEntrieDay.create();
+	private final BinaryOperator<Long> interval = $().interval();
+	private final Function<Long, Integer> millisecondsToMinutes = $().millisecondsToSecondsConversion();
+	private final Function<Date, Long> dateToMilliseconds = $().dateToMilliseconds();
+	private final BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay = $().timeWorkedDuringTheDay();
+	private final BiFunction<List<String>, Predicate<Date>, Date> firstEntrieDay = $().firstEntrieDay();
+	private final BiFunction<List<String>, Predicate<Date>, Date> lastEntrieDay = $().lastEntries();
 
 	private TimeIntervalDuringTheDay() {
 
