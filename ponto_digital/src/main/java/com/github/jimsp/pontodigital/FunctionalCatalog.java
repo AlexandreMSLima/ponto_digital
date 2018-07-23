@@ -35,72 +35,77 @@ import com.github.jimsp.pontodigital.report.PontoDigitalReport;
 import com.github.jimsp.pontodigital.wrapper.TimeBalanceParam;
 
 public interface FunctionalCatalog {
+	
+	public static FunctionalCatalog $() {
+		return new FunctionalCatalog() {
+		};
+	}
 
-	public static BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays(){
+	public default BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays(){
 		return CalculateWorkDays.create();
 	}
 	
-	public static Function<Date, Long> dateToMilliseconds(){
+	public default Function<Date, Long> dateToMilliseconds(){
 		return DateToMilliseconds.create();
 	}
 	
-	public static BiFunction<List<String>, Predicate<Date>, Date> firstEntrieDay(){
+	public default BiFunction<List<String>, Predicate<Date>, Date> firstEntrieDay(){
 		return FirstEntrieDay.create();
 	}
 	
-	public static BinaryOperator<Long> interval(){
+	public default BinaryOperator<Long> interval(){
 		return Interval.create();
 	}
 	
-	public static Predicate<Date> itsSameDay(final Date day){
+	public default Predicate<Date> itsSameDay(final Date day){
 		return ItsTheSameDay.create(day);
 	}
 	
-	public static BiFunction<List<String>, Predicate<Date>, Date> lastEntries(){
+	public default BiFunction<List<String>, Predicate<Date>, Date> lastEntries(){
 		return LastEntrieDay.create();
 	}
 	
-	public static Function<Long, Integer> millisecondsToSecondsConversion(){
+	public default Function<Long, Integer> millisecondsToSecondsConversion(){
 		return MillisecondsConversion.createToSeconds();
 	}
 	
-	public static Function<PontoDigitalDto, List<PontoDigitalReport>> pontoDigitalFluxe(){
+	public default Function<PontoDigitalDto, List<PontoDigitalReport>> pontoDigitalFluxe(){
 		return PontoDigitalFluxe.create();
 	}
 	
-	public static Function<InputStream, PontoDigitalDto> pontoDigitalRead(){
+	public default Function<InputStream, PontoDigitalDto> pontoDigitalRead(){
 		return PontoDigitalRead.create();
 	}
 	
-	public static Consumer<PontoDigitalDto> pontoDigitalValidate(){
+	public default Consumer<PontoDigitalDto> pontoDigitalValidate(){
 		return PontoDigitalValidate.create();
 	}
 	
-	public static BiConsumer<OutputStream, List<PontoDigitalReport>> pontoDigitalWrite(){
+	public default BiConsumer<OutputStream, List<PontoDigitalReport>> pontoDigitalWrite(){
 		return PontoDigitalWrite.create();
 	}
 	
-	public static BiFunction<Long, Long, Long> subtraction(){
+	public default BiFunction<Long, Long, Long> subtraction(){
 		return Subtraction.create();
 	}
 	
-	public static BiFunction<Employer, TimeBalanceParam, Integer> timeBalance(){
+	public default BiFunction<Employer, TimeBalanceParam, Integer> timeBalance(){
 		return TimeBalance.create();
 	}
 	
-	public static BiFunction<Employer, Predicate<Date>, Integer> timeIntervalDuringTheDay(){
+	public default BiFunction<Employer, Predicate<Date>, Integer> timeIntervalDuringTheDay(){
 		return TimeIntervalDuringTheDay.create();
 	}
 	
-	public static Function<Employer, Integer> timeIntervalDuringThePeriod(){
+	public default Function<Employer, Integer> timeIntervalDuringThePeriod(){
 		return TimeIntervalDuringThePeriod.create();
 	}
 	
-	public static BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay(){
+	public default BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay(){
 		return TimeWorkedDuringTheDay.create();
 	}
 	
-	public static Function<Employer, Integer> timeWorkedDuringThePeriod(){
+	public default Function<Employer, Integer> timeWorkedDuringThePeriod(){
 		return TimeWorkedDuringThePeriod.create();
 	}
 }

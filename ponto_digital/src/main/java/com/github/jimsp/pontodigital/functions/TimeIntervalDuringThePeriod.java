@@ -1,5 +1,7 @@
 package com.github.jimsp.pontodigital.functions;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import java.util.Date;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -14,9 +16,9 @@ public final class TimeIntervalDuringThePeriod implements Function<Employer, Int
 	}
 	
 	private final BinaryOperator<Long> interval = Interval.create();
-	private final Function<Long, Integer> millisecondsToMinutes = FunctionalCatalog.millisecondsToSecondsConversion();
-	private final Function<Date, Long> dateToMilliseconds = FunctionalCatalog.dateToMilliseconds();
-	private final Function<Employer, Integer> timeWorkedDuringThePeriod = FunctionalCatalog.timeWorkedDuringThePeriod();
+	private final Function<Long, Integer> millisecondsToMinutes = $().millisecondsToSecondsConversion();
+	private final Function<Date, Long> dateToMilliseconds = $().dateToMilliseconds();
+	private final Function<Employer, Integer> timeWorkedDuringThePeriod = $().timeWorkedDuringThePeriod();
 
 	private TimeIntervalDuringThePeriod() {
 		

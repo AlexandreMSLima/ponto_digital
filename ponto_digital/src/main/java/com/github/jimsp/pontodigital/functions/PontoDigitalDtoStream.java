@@ -1,5 +1,7 @@
 package com.github.jimsp.pontodigital.functions;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +11,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.github.jimsp.pontodigital.FunctionalCatalog;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.wrapper.PeriudWorkParam;
 
 public final class PontoDigitalDtoStream {
 
-	private static final Function<Long, Integer> millisecondsConversion = FunctionalCatalog.millisecondsToSecondsConversion();
-	private static final BinaryOperator<Long> interval = FunctionalCatalog.interval();
+	private static final Function<Long, Integer> millisecondsConversion = $().millisecondsToSecondsConversion();
+	private static final BinaryOperator<Long> interval = $().interval();
 
 	public static Stream<Employer> of(final PontoDigitalDto pontoDigitalDto) {
 		return pontoDigitalDto //
@@ -38,7 +39,7 @@ public final class PontoDigitalDtoStream {
 		while (i < entries.size()) {
 			final Date entry = entries.get(i);
 			final Date exit = entries.get(i + 1);
-			final Predicate<Date> itsTheSameDay = FunctionalCatalog.itsSameDay(entry);
+			final Predicate<Date> itsTheSameDay = $().itsSameDay(entry);
 
 			if (itsTheSameDay.test(exit)) {
 

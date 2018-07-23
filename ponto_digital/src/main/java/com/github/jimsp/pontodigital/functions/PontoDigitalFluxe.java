@@ -1,5 +1,7 @@
 package com.github.jimsp.pontodigital.functions;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ public final class PontoDigitalFluxe implements Function<PontoDigitalDto, List<P
 		return new PontoDigitalFluxe();
 	}
 
-	private final BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays = FunctionalCatalog.calculateWorkDays();
+	private final BiFunction<Employer, Date, BalanceWorkDay> calculateWorkDays = $().calculateWorkDays();
 
 	private PontoDigitalFluxe() {
 
