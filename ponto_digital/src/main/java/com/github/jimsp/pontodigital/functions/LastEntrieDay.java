@@ -1,4 +1,5 @@
 package com.github.jimsp.pontodigital.functions;
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public class LastEntrieDay implements BiFunction<List<String>, Predicate<Date>, 
 	public Date apply(final List<String> entries, final Predicate<Date> itsTheSameDay) {
 		return entries //
 				.stream() //
-				.map(DateFormat.parseDateTime()) //
+				.map($.parseDateTime()) //
 				.filter(itsTheSameDay) //
 				.reduce((a, b) -> a.before(b) ? b : a) //
 				.get();

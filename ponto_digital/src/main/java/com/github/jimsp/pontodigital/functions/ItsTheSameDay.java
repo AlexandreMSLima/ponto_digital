@@ -1,5 +1,7 @@
 package com.github.jimsp.pontodigital.functions;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import java.util.Date;
 import java.util.function.Predicate;
 
@@ -17,10 +19,10 @@ public final class ItsTheSameDay implements Predicate<Date> {
 
 	@Override
 	public boolean test(final Date localDateTime) {
-		return DateFormat //
+		return $ //
 				.formartDate() //
 				.apply(day) //
-				.equals(DateFormat //
+				.equals($ //
 						.formartDate() //
 						.apply(localDateTime));
 	}

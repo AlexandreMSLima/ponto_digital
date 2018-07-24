@@ -1,4 +1,5 @@
 package com.github.jimsp.pontodigital.functions;
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
 
 import java.util.function.Function;
 
@@ -15,7 +16,7 @@ public final class TimeWorkedDuringThePeriod implements Function<Employer, Integ
 	}
 	
 	public Integer apply(final Employer employer) {
-		return PontoDigitalDtoStream //
+		return $ //
 				.of(employer) //
 				.map(mapper-> mapper.getTimeWorkMinutes())
 				.reduce((a,b)->a + b)

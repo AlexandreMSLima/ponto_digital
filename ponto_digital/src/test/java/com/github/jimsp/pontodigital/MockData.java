@@ -1,4 +1,5 @@
 package com.github.jimsp.pontodigital;
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -9,14 +10,13 @@ import java.util.List;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.dto.Workload;
-import com.github.jimsp.pontodigital.functions.DateFormat;
 
 public class MockData {
 
 	public static PontoDigitalDto createPontoDigitalDto() {
 		return PontoDigitalDto.builder().employees(Arrays.asList(createEmployer()))
-				.periodStart(DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21)))
-				.today(DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21))).build();
+				.periodStart($.formartDateTime().apply(createEntrie(2018, 06, 21)))
+				.today($.formartDateTime().apply(createEntrie(2018, 06, 21))).build();
 	}
 
 	public static Employer createEmployer() {
@@ -49,19 +49,19 @@ public class MockData {
 
 	public static List<String> createEntries() {
 		return Arrays.asList( //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 8, 30)), //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 12, 0)), //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 13, 0)), //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 17, 30)) //
+				$.formartDateTime().apply(createEntrie(2018, 06, 21, 8, 30)), //
+				$.formartDateTime().apply(createEntrie(2018, 06, 21, 12, 0)), //
+				$.formartDateTime().apply(createEntrie(2018, 06, 21, 13, 0)), //
+				$.formartDateTime().apply(createEntrie(2018, 06, 21, 17, 30)) //
 		);
 	}
 	
 	public static List<String> createEntriesNextDay() {
 		return Arrays.asList( //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 21, 23, 30)), //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 22, 3, 0)), //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 22, 4, 0)), //
-				DateFormat.formartDateTime().apply(createEntrie(2018, 06, 22, 8, 30)) //
+				$.formartDateTime().apply(createEntrie(2018, 06, 21, 23, 30)), //
+				$.formartDateTime().apply(createEntrie(2018, 06, 22, 3, 0)), //
+				$.formartDateTime().apply(createEntrie(2018, 06, 22, 4, 0)), //
+				$.formartDateTime().apply(createEntrie(2018, 06, 22, 8, 30)) //
 		);
 	}
 

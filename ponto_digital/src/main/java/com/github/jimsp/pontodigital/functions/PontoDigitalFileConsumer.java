@@ -1,4 +1,4 @@
-package com.github.jimsp.pontodigital;
+package com.github.jimsp.pontodigital.functions;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,9 +13,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
-import com.github.jimsp.pontodigital.functions.PontoDigitalRead;
-import com.github.jimsp.pontodigital.functions.PontoDigitalValidate;
-import com.github.jimsp.pontodigital.functions.PontoDigitalWrite;
 import com.github.jimsp.pontodigital.report.PontoDigitalReport;
 
 public final class PontoDigitalFileConsumer implements BiConsumer<InputStream, OutputStream> {

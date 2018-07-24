@@ -1,4 +1,5 @@
 package com.github.jimsp.pontodigital.functions;
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
 
 import java.util.Date;
 import java.util.function.BiFunction;
@@ -18,7 +19,7 @@ public final class TimeWorkedDuringTheDay implements BiFunction<Employer, Predic
 
 	@Override
 	public Integer apply(final Employer employer, final Predicate<Date> itsTheSameDay) {
-		return PontoDigitalDtoStream //
+		return $ //
 				.of(employer) //
 				.filter(periud->itsTheSameDay.test(periud.getEntry())) //
 				.map(mapper-> mapper.getTimeWorkMinutes())

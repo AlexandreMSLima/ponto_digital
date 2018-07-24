@@ -1,5 +1,7 @@
 package com.github.jimsp.pontodigital.functions;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import java.util.Date;
 import java.util.stream.Stream;
 
@@ -8,11 +10,11 @@ import com.github.jimsp.pontodigital.dto.Employer;
 public final class DistinctDaysStream {
 	public static Stream<Date> of(final Employer employer) {
 		
-		return PontoDigitalDtoStream //
+		return $ //
 				.of(employer) //
-				.map(periud -> DateFormat.formartDate().apply(periud.getEntry())) //
+				.map(periud -> $.formartDate().apply(periud.getEntry())) //
 				.sorted()
 				.distinct() //
-				.map(DateFormat.parseDate());
+				.map($.parseDate());
 	}
 }

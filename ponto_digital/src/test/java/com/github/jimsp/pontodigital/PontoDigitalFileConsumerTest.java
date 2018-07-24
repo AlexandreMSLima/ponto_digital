@@ -1,9 +1,14 @@
 package com.github.jimsp.pontodigital;
 
+import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
+
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.function.BiConsumer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,16 +20,12 @@ import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.exceptions.PontoDigitalValidationException;
 import com.github.jimsp.pontodigital.exceptions.PontoDigitalWithProblemFileException;
 import com.github.jimsp.pontodigital.functions.DistinctDaysStream;
-import com.github.jimsp.pontodigital.functions.PontoDigitalFluxe;
 import com.github.jimsp.pontodigital.functions.PontoDigitalRead;
 
 public class PontoDigitalFileConsumerTest {
 
 	private PontoDigitalRead pontoDigitalRead = PontoDigitalRead.create();
-	
-	private PontoDigitalFluxe pontoDigitalFluxe = PontoDigitalFluxe.create();
-	private PontoDigitalFileConsumer pontoDigitalFileConsumer = PontoDigitalFileConsumer.create(
-			pontoDigitalFluxe);
+	private BiConsumer<InputStream, OutputStream> pontoDigitalFileConsumer = $.pontoDigitalFileConsumer();
 
 	@Test(expected = PontoDigitalWithProblemFileException.class)
 	public void testWithProblem() {

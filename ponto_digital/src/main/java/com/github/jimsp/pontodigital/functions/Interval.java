@@ -11,7 +11,7 @@ public final class Interval implements BinaryOperator<Long>{
 		return new Interval();
 	}
 	
-	private final BiFunction<Long, Long, Long> subtraction = $().subtraction();
+	private final BiFunction<Long, Long, Long> subtraction = $.subtraction();
 	
 	private Interval() {
 		

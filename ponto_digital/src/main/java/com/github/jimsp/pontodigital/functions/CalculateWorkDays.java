@@ -1,7 +1,5 @@
 package com.github.jimsp.pontodigital.functions;
 
-import static com.github.jimsp.pontodigital.FunctionalCatalog.$;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.function.BiFunction;
@@ -9,29 +7,35 @@ import java.util.function.Predicate;
 
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.report.BalanceWorkDay;
+import com.github.jimsp.pontodigital.wrapper.BalanceWorkParam;
 import com.github.jimsp.pontodigital.wrapper.TimeBalanceParam;
 
-public final class CalculateWorkDays implements BiFunction<Employer, Date, BalanceWorkDay> {
+public final class CalculateWorkDays implements BiFunction<BalanceWorkParam, Predicate<Date>, BalanceWorkDay> {
 
-	public static CalculateWorkDays create() {
-		return new CalculateWorkDays();
+	public static CalculateWorkDays create(final BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay, //
+			final BiFunction<Employer, Predicate<Date>, Integer> timeIntervalDuringTheDay, //
+			final BiFunction<Employer, TimeBalanceParam, Integer> timeBalance) {
+		return new CalculateWorkDays(timeWorkedDuringTheDay, timeIntervalDuringTheDay, timeBalance);
 	}
 
-	private final BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay = $().timeWorkedDuringTheDay();
-	private final BiFunction<Employer, Predicate<Date>, Integer> timeIntervalDuringTheDay = $().timeIntervalDuringTheDay();
-	private final BiFunction<Employer, TimeBalanceParam, Integer> timeBalance = $().timeBalance();
+	private final BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay;
+	private final BiFunction<Employer, Predicate<Date>, Integer> timeIntervalDuringTheDay;
+	private final BiFunction<Employer, TimeBalanceParam, Integer> timeBalance;
 
-	private CalculateWorkDays() {
-		
+	private CalculateWorkDays(final BiFunction<Employer, Predicate<Date>, Integer> timeWorkedDuringTheDay, //
+			final BiFunction<Employer, Predicate<Date>, Integer> timeIntervalDuringTheDay, //
+			final BiFunction<Employer, TimeBalanceParam, Integer> timeBalance) {
+		this.timeWorkedDuringTheDay = timeWorkedDuringTheDay;
+		this.timeIntervalDuringTheDay = timeIntervalDuringTheDay;
+		this.timeBalance = timeBalance;
 	}
 
 	@Override
-	public BalanceWorkDay apply(final Employer employer, final Date day) {
-		final Integer dayValue = Integer.valueOf(new SimpleDateFormat("dd").format(day));
-		final Predicate<Date> itsTheSameDay = $().itsSameDay(day);
-		final Integer workDayMinutes = timeWorkedDuringTheDay.apply(employer, itsTheSameDay);
-		final Integer intervalMinutes = timeIntervalDuringTheDay.apply(employer, itsTheSameDay);
-		final Integer timeBalanceMinutes = timeBalance.apply(employer, //
+	public BalanceWorkDay apply(final BalanceWorkParam balanceWorkParam, final Predicate<Date> itsTheSameDay) {
+		final Integer dayValue = Integer.valueOf(new SimpleDateFormat("dd").format(balanceWorkParam.getDay()));
+		final Integer workDayMinutes = timeWorkedDuringTheDay.apply(balanceWorkParam.getEmployer(), itsTheSameDay);
+		final Integer intervalMinutes = timeIntervalDuringTheDay.apply(balanceWorkParam.getEmployer(), itsTheSameDay);
+		final Integer timeBalanceMinutes = timeBalance.apply(balanceWorkParam.getEmployer(), //
 				TimeBalanceParam //
 						.builder() //
 						.workDayMinutes(workDayMinutes) //
