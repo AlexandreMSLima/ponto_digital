@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 import com.github.jimsp.pontodigital.dto.Employer;
 import com.github.jimsp.pontodigital.dto.PontoDigitalDto;
 import com.github.jimsp.pontodigital.functions.CalculateWorkDays;
+import com.github.jimsp.pontodigital.functions.CreatePeriudWorkParam;
 import com.github.jimsp.pontodigital.functions.DateToMilliseconds;
 import com.github.jimsp.pontodigital.functions.FirstEntrieDay;
 import com.github.jimsp.pontodigital.functions.Interval;
@@ -162,6 +163,10 @@ public interface FunctionalCatalog {
 				.getEmployees() //
 				.stream();
 	}
+	
+	public default BiFunction<Date, Date, List<PeriudWorkParam>> createPeriudWorkParam(){
+		return CreatePeriudWorkParam.create();
+	}
 
 	public default Stream<PeriudWorkParam> of(final Employer employer) {
 		final List<Date> entries = employer //
@@ -176,54 +181,7 @@ public interface FunctionalCatalog {
 		while (i < entries.size()) {
 			final Date entry = entries.get(i);
 			final Date exit = entries.get(i + 1);
-			final Predicate<Date> itsTheSameDay = itsSameDay(entry);
-
-			if (itsTheSameDay.test(exit)) {
-
-				final Integer timeWorkMinutes = millisecondsToSecondsConversion()
-						.apply(interval().apply(entry.getTime(), exit.getTime()));
-
-				periudWorkParams //
-						.add( //
-								PeriudWorkParam //
-										.builder() //
-										.entry(entry) //
-										.exit(exit) //
-										.timeWorkMinutes(timeWorkMinutes) //
-										.build());
-			} else {
-				final Integer timeWorkMinutesAtLast = millisecondsToSecondsConversion() //
-						.apply(interval() //
-								.apply(entry.getTime(), //
-										parseTimeLastHour() //
-												.apply(entry) //
-												.getTime()));
-
-				final Integer timeWorkMinutesOfZeroHour = millisecondsToSecondsConversion() //
-						.apply(interval() //
-								.apply(parseTimeZeroHour() //
-										.apply(exit) //
-										.getTime(), //
-										exit.getTime()));
-
-				periudWorkParams //
-						.add( //
-								PeriudWorkParam //
-										.builder() //
-										.entry(entry) //
-										.exit(parseTimeLastHour().apply(entry)) //
-										.timeWorkMinutes(timeWorkMinutesAtLast) //
-										.build());
-				periudWorkParams //
-						.add( //
-								PeriudWorkParam //
-										.builder() //
-										.entry(parseTimeZeroHour().apply(exit)) //
-										.exit(exit) //
-										.timeWorkMinutes(timeWorkMinutesOfZeroHour) //
-										.build());
-			}
-
+			periudWorkParams.addAll(createPeriudWorkParam().apply(entry, exit));
 			i = i + 2;
 		}
 
